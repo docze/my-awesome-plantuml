@@ -1,0 +1,10 @@
+'
+' Single import point for diagrams.
+' It transitively loads palette.puml and every diagram-specific style.
+'
+!include_once common.puml
+!include_once activity-theme.puml
+!include_once sequence-theme.puml
+!include_once component-theme.puml
+!include_once state-theme.puml
+!include_once deployment-theme.puml

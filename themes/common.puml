@@ -1,0 +1,34 @@
+!include_once palette.puml
+
+skinparam backgroundColor COLOR_BACKGROUND
+skinparam shadowing false
+skinparam defaultFontName Arial
+skinparam defaultFontColor COLOR_TEXT_PRIMARY
+
+hide stereotype
+
+<style>
+root {
+    FontName Arial
+    FontColor COLOR_TEXT_PRIMARY
+}
+
+document {
+    BackgroundColor COLOR_BACKGROUND
+
+    title {
+        FontName Arial
+        FontColor COLOR_TEXT_PRIMARY
+        FontSize 20
+        FontStyle bold
+    }
+}
+
+note {
+    BackgroundColor COLOR_SECONDARY_BG
+    LineColor COLOR_BORDER_MUTED
+    FontColor COLOR_TEXT_SECONDARY
+    FontSize 11
+    RoundCorner 8
+}
+</style>

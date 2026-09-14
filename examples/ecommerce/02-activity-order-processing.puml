@@ -1,0 +1,88 @@
+@startuml
+!include ../../themes/activity-theme.puml
+
+title E-commerce — order processing activity
+
+|COLOR_LANE_PURPLE|customer| **Customer**\n<size:11><color:COLOR_TEXT_MUTED>web / mobile</color></size>
+|COLOR_LANE_BLUE|order| **Order Service**\n<size:11><color:COLOR_TEXT_MUTED>order lifecycle</color></size>
+|COLOR_LANE_GREEN|inventory| **Inventory Service**\n<size:11><color:COLOR_TEXT_MUTED>stock reservation</color></size>
+|COLOR_LANE_RED|payment| **Payment Service**\n<size:11><color:COLOR_TEXT_MUTED>payment authorization</color></size>
+|COLOR_LANE_YELLOW|bus| **Event Bus**\n<size:11><color:COLOR_TEXT_MUTED>asynchronous events</color></size>
+|COLOR_LANE_GRAY|notification| **Notification**\n<size:11><color:COLOR_TEXT_MUTED>customer messages</color></size>
+
+|customer|
+start
+:Add products to cart; <<primary>>
+:Submit checkout; <<primary>>
+
+|order|
+:Create order\n**PENDING_STOCK**; <<primary>>
+:Order has an immutable\nprice snapshot.; <<rule>>
+
+|inventory|
+:Reserve stock; <<primary>>
+
+if (Stock available?) then (yes)
+    :Create reservation; <<secondary>>
+
+    |order|
+    :Move order to\n**PENDING_PAYMENT**; <<primary>>
+
+    |payment|
+    :Authorize payment; <<primary>>
+
+    if (Payment authorized?) then (yes)
+        :Store authorization id; <<secondary>>
+
+        |order|
+        :Confirm order\n**CONFIRMED**; <<important>>
+
+        |bus|
+        :Publish **OrderConfirmed**; <<optional>>
+
+        -[COLOR_ARROW_ASYNC,dashed]->
+        |notification|
+        :Send order confirmation; <<optional>>
+
+        |customer|
+        :See confirmed order; <<success>>
+        stop
+
+    else (no)
+        :Return rejection reason; <<failure>>
+
+        |inventory|
+        :Release stock reservation; <<secondary>>
+
+        |order|
+        :Mark order\n**PAYMENT_FAILED**; <<failure>>
+
+        |customer|
+        :Choose another payment method; <<secondary>>
+        stop
+    endif
+
+else (no)
+    |order|
+    :Reject order\n**OUT_OF_STOCK**; <<failure>>
+
+    |customer|
+    :Show unavailable items; <<secondary>>
+    stop
+endif
+
+legend bottom right
+  **Activities**
+  Filled blue = primary action
+  White = secondary action
+  Dashed border = optional / side effect
+  Dashed transparent = rule / constraint
+  Yellow = important business point
+  Green / red = success / failure
+
+  **Arrows**
+  Solid = synchronous flow
+  Dashed = async / event
+endlegend
+
+@enduml

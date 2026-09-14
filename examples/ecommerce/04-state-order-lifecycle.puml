@@ -1,0 +1,53 @@
+@startuml
+!include ../../themes/state-theme.puml
+
+title E-commerce — order lifecycle state machine
+
+hide empty description
+
+state "DRAFT" as Draft <<draft>>
+state "PENDING_STOCK" as PendingStock <<processing>>
+state "OUT_OF_STOCK" as OutOfStock <<failure>>
+state "PENDING_PAYMENT" as PendingPayment <<processing>>
+state "PAYMENT_FAILED" as PaymentFailed <<failure>>
+state "CONFIRMED" as Confirmed <<success>>
+state "FULFILLING" as Fulfilling <<processing>>
+state "COMPLETED" as Completed <<terminal>>
+state "CANCELLED" as Cancelled <<terminal>>
+
+[*] --> Draft : cart converted to order
+
+Draft --> PendingStock : submitCheckout
+
+PendingStock --> PendingPayment : stockReserved
+PendingStock --> OutOfStock : stockReservationRejected
+OutOfStock --> [*]
+
+PendingPayment --> Confirmed : paymentAuthorized
+PendingPayment --> PaymentFailed : paymentRejected
+PaymentFailed --> PendingPayment : retryPayment
+PaymentFailed --> Cancelled : cancel
+
+Confirmed --> Fulfilling : fulfillmentStarted
+Confirmed --> Cancelled : cancel\n[before fulfillment]
+
+Fulfilling --> Completed : shipmentDelivered
+
+Completed --> [*]
+Cancelled --> [*]
+
+note right of PendingPayment
+  The state machine does not care
+  whether the trigger came from
+  an API callback or a queue event.
+end note
+
+legend bottom right
+  White = draft
+  Blue = processing
+  Green = successful business milestone
+  Red = recoverable / business failure
+  Gray = terminal state
+endlegend
+
+@enduml

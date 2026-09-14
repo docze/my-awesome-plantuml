@@ -1,0 +1,60 @@
+@startuml
+!include ../../themes/deployment-theme.puml
+
+title E-commerce — production deployment
+left to right direction
+
+cloud "Internet" as Internet
+
+node "Edge" as Edge <<edge>> {
+    component "Load Balancer" as LB
+    component "API Gateway\n2 replicas" as Gateway
+}
+
+node "Kubernetes Cluster" as K8s <<runtime>> {
+
+    node "Application namespace" as Apps {
+        component "Catalog Service\n2 pods" as Catalog
+        component "Order Service\n3 pods" as Order
+        component "Inventory Service\n2 pods" as Inventory
+        component "Payment Service\n2 pods" as Payment
+        component "Notification Service\n2 pods" as Notification
+    }
+
+    node "Messaging namespace" as Messaging {
+        queue "Event Bus\n3-node cluster" as Bus <<broker>>
+    }
+}
+
+node "Managed data services" as Data {
+    database "Catalog PostgreSQL" as CatalogDb <<datastore>>
+    database "Order PostgreSQL" as OrderDb <<datastore>>
+    database "Inventory PostgreSQL" as InventoryDb <<datastore>>
+    database "Payment PostgreSQL" as PaymentDb <<datastore>>
+}
+
+Internet -[COLOR_ARROW_SYNC]-> LB : HTTPS :443
+LB -[COLOR_ARROW_SYNC]-> Gateway : HTTPS
+
+Gateway -[COLOR_ARROW_SYNC]-> Catalog : REST
+Gateway -[COLOR_ARROW_SYNC]-> Order : REST
+Order -[COLOR_ARROW_SYNC]-> Inventory : REST
+Order -[COLOR_ARROW_SYNC]-> Payment : REST
+
+Catalog -[COLOR_ARROW_SYNC]-> CatalogDb : PostgreSQL
+Order -[COLOR_ARROW_SYNC]-> OrderDb : PostgreSQL
+Inventory -[COLOR_ARROW_SYNC]-> InventoryDb : PostgreSQL
+Payment -[COLOR_ARROW_SYNC]-> PaymentDb : PostgreSQL
+
+Order -[COLOR_ARROW_ASYNC,dashed]-> Bus : publish events
+Payment -[COLOR_ARROW_ASYNC,dashed]-> Bus : publish events
+Bus -[COLOR_ARROW_ASYNC,dashed]-> Notification : consume
+Bus -[COLOR_ARROW_ASYNC,dashed]-> Inventory : consume
+
+legend bottom right
+  **Network / communication**
+  Solid = synchronous request / DB connection
+  Dashed = broker-based asynchronous communication
+endlegend
+
+@enduml

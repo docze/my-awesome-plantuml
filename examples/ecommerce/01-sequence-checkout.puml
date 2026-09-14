@@ -1,0 +1,55 @@
+@startuml
+!include ../../themes/sequence-theme.puml
+
+title E-commerce — checkout sequence
+
+actor Customer
+participant "Web Store" as Web <<client>>
+participant "API Gateway" as Gateway <<gateway>>
+participant "Order Service" as Order <<service>>
+participant "Inventory Service" as Inventory <<service>>
+participant "Payment Service" as Payment <<service>>
+queue "Event Bus" as Bus <<broker>>
+participant "Notification Service" as Notification <<service>>
+
+Customer -> Web : Click **Place order**
+Web -> Gateway : POST /api/orders
+Gateway -> Order : POST /orders
+
+Order -> Inventory : POST /reservations\n(orderId, items)
+Inventory -> Order : 201 Reserved
+
+Order -> Payment : POST /authorizations\n(orderId, amount)
+
+alt payment authorized
+    Payment -> Order : 200 Authorized
+    Order -> Order : Persist **CONFIRMED**
+    Order -> Gateway : 201 Created\nstatus = CONFIRMED
+    Gateway -> Web : 201 Created
+    Web -> Customer : Show order confirmation
+
+    note over Order,Bus
+      Dashed open arrows mean
+      asynchronous messaging.
+    end note
+
+    Order -->> Bus : **OrderConfirmed**
+    Bus -->> Notification : OrderConfirmed
+    Notification -->> Customer : E-mail confirmation
+
+else payment rejected
+    Payment -> Order : 422 Payment rejected
+    Order -> Inventory : DELETE /reservations/{orderId}
+    Inventory -> Order : 204 Released
+    Order -> Gateway : 422 PAYMENT_REJECTED
+    Gateway -> Web : 422 PAYMENT_REJECTED
+    Web -> Customer : Ask for another payment method
+end
+
+legend bottom right
+  **Communication**
+  → solid = synchronous API / local call
+  ⇢ dashed open = asynchronous message / event
+endlegend
+
+@enduml

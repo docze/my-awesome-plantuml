@@ -1,0 +1,50 @@
+'
+' my-awesome-plantuml — shared color palette
+' Change colors here to restyle every diagram in the repository.
+'
+
+' Canvas / typography
+!define COLOR_BACKGROUND            #FFFFFF
+!define COLOR_TEXT_PRIMARY          #172554
+!define COLOR_TEXT_SECONDARY        #475569
+!define COLOR_TEXT_MUTED            #64748B
+
+' Generic borders
+!define COLOR_BORDER_PRIMARY        #60A5FA
+!define COLOR_BORDER_MUTED          #94A3B8
+!define COLOR_BORDER_SUBTLE         #CBD5E1
+!define COLOR_BORDER_WARNING        #E5A817
+!define COLOR_BORDER_SUCCESS        #22A06B
+!define COLOR_BORDER_DANGER         #D64545
+
+' Semantic backgrounds
+!define COLOR_PRIMARY_BG            #EAF5FF
+!define COLOR_SECONDARY_BG          #FFFFFF
+!define COLOR_OPTIONAL_BG           #FFFFFF
+!define COLOR_RULE_BG               transparent
+!define COLOR_IMPORTANT_BG          #FFF7D6
+!define COLOR_SUCCESS_BG            #EAFBF0
+!define COLOR_DANGER_BG             #FFF0F0
+!define COLOR_DECISION_BG           #FFF4C7
+
+' Communication
+!define COLOR_ARROW_SYNC            #334155
+!define COLOR_ARROW_ASYNC           #64748B
+!define COLOR_ARROW_INFO            #94A3B8
+
+' Swimlanes / role differentiation
+!define COLOR_LANE_BLUE             #EAF5FF
+!define COLOR_LANE_BLUE_ALT         #EDF6FF
+!define COLOR_LANE_GREEN            #EAFBF0
+!define COLOR_LANE_YELLOW           #FFF8DC
+!define COLOR_LANE_PURPLE           #F4EEFF
+!define COLOR_LANE_RED              #FFECEF
+!define COLOR_LANE_GRAY             #F8FAFC
+
+' Architecture element backgrounds
+!define COLOR_CLIENT_BG             #F4EEFF
+!define COLOR_GATEWAY_BG            #EAF5FF
+!define COLOR_SERVICE_BG            #EAFBF0
+!define COLOR_BROKER_BG             #FFF8DC
+!define COLOR_DATABASE_BG           #EDF6FF
+!define COLOR_INFRA_BG              #F8FAFC

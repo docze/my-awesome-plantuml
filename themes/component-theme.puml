@@ -1,0 +1,67 @@
+!include_once common.puml
+
+<style>
+componentDiagram {
+    component {
+        BackgroundColor COLOR_SERVICE_BG
+        LineColor COLOR_BORDER_SUCCESS
+        FontColor COLOR_TEXT_PRIMARY
+        FontStyle bold
+        RoundCorner 10
+        LineThickness 1.4
+    }
+
+    database {
+        BackgroundColor COLOR_DATABASE_BG
+        LineColor COLOR_BORDER_PRIMARY
+        FontColor COLOR_TEXT_PRIMARY
+        LineThickness 1.3
+    }
+
+    queue {
+        BackgroundColor COLOR_BROKER_BG
+        LineColor COLOR_BORDER_WARNING
+        FontColor COLOR_TEXT_PRIMARY
+        LineThickness 1.3
+    }
+
+    rectangle {
+        BackgroundColor COLOR_INFRA_BG
+        LineColor COLOR_BORDER_MUTED
+        FontColor COLOR_TEXT_PRIMARY
+        RoundCorner 10
+    }
+
+    .client {
+        BackgroundColor COLOR_CLIENT_BG
+        LineColor COLOR_BORDER_MUTED
+    }
+
+    .gateway {
+        BackgroundColor COLOR_GATEWAY_BG
+        LineColor COLOR_BORDER_PRIMARY
+    }
+
+    .service {
+        BackgroundColor COLOR_SERVICE_BG
+        LineColor COLOR_BORDER_SUCCESS
+    }
+
+    .broker {
+        BackgroundColor COLOR_BROKER_BG
+        LineColor COLOR_BORDER_WARNING
+    }
+
+    .datastore {
+        BackgroundColor COLOR_DATABASE_BG
+        LineColor COLOR_BORDER_PRIMARY
+    }
+
+    arrow {
+        LineColor COLOR_ARROW_SYNC
+        FontColor COLOR_TEXT_SECONDARY
+        FontSize 10
+        LineThickness 1.2
+    }
+}
+</style>

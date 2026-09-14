@@ -1,0 +1,58 @@
+!include_once common.puml
+
+<style>
+sequenceDiagram {
+    participant {
+        BackgroundColor COLOR_SERVICE_BG
+        LineColor COLOR_BORDER_PRIMARY
+        FontColor COLOR_TEXT_PRIMARY
+        FontStyle bold
+        RoundCorner 8
+        LineThickness 1.3
+    }
+
+    actor {
+        BackgroundColor COLOR_CLIENT_BG
+        LineColor COLOR_BORDER_MUTED
+        FontColor COLOR_TEXT_PRIMARY
+    }
+
+    .client {
+        BackgroundColor COLOR_CLIENT_BG
+        LineColor COLOR_BORDER_MUTED
+    }
+
+    .gateway {
+        BackgroundColor COLOR_GATEWAY_BG
+        LineColor COLOR_BORDER_PRIMARY
+    }
+
+    .service {
+        BackgroundColor COLOR_SERVICE_BG
+        LineColor COLOR_BORDER_SUCCESS
+    }
+
+    .broker {
+        BackgroundColor COLOR_BROKER_BG
+        LineColor COLOR_BORDER_WARNING
+    }
+
+    arrow {
+        LineColor COLOR_ARROW_SYNC
+        FontColor COLOR_TEXT_SECONDARY
+        FontSize 11
+        LineThickness 1.2
+    }
+
+    lifeLine {
+        LineColor COLOR_BORDER_MUTED
+        LineStyle 0
+    }
+
+    note {
+        BackgroundColor COLOR_SECONDARY_BG
+        LineColor COLOR_BORDER_MUTED
+        FontColor COLOR_TEXT_SECONDARY
+    }
+}
+</style>

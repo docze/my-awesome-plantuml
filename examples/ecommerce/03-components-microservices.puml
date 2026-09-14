@@ -1,0 +1,59 @@
+@startuml
+!include ../../themes/component-theme.puml
+
+title E-commerce — microservice components
+left to right direction
+
+rectangle "Clients" {
+    component "Web Store" as Web <<client>>
+    component "Mobile App" as Mobile <<client>>
+}
+
+component "API Gateway" as Gateway <<gateway>>
+
+rectangle "Business services" {
+    component "Catalog Service" as Catalog <<service>>
+    component "Order Service" as Order <<service>>
+    component "Inventory Service" as Inventory <<service>>
+    component "Payment Service" as Payment <<service>>
+    component "Notification Service" as Notification <<service>>
+}
+
+queue "Event Bus\nKafka / RabbitMQ" as Bus <<broker>>
+
+database "Catalog DB" as CatalogDb <<datastore>>
+database "Order DB" as OrderDb <<datastore>>
+database "Inventory DB" as InventoryDb <<datastore>>
+database "Payment DB" as PaymentDb <<datastore>>
+
+Web -[COLOR_ARROW_SYNC]-> Gateway : HTTPS / REST
+Mobile -[COLOR_ARROW_SYNC]-> Gateway : HTTPS / REST
+
+Gateway -[COLOR_ARROW_SYNC]-> Catalog : GET /products
+Gateway -[COLOR_ARROW_SYNC]-> Order : POST /orders
+
+Order -[COLOR_ARROW_SYNC]-> Inventory : reserve / release stock
+Order -[COLOR_ARROW_SYNC]-> Payment : authorize / capture
+
+Catalog -[COLOR_ARROW_SYNC]-> CatalogDb : SQL
+Order -[COLOR_ARROW_SYNC]-> OrderDb : SQL
+Inventory -[COLOR_ARROW_SYNC]-> InventoryDb : SQL
+Payment -[COLOR_ARROW_SYNC]-> PaymentDb : SQL
+
+Order -[COLOR_ARROW_ASYNC,dashed]-> Bus : OrderConfirmed\nOrderCancelled
+Payment -[COLOR_ARROW_ASYNC,dashed]-> Bus : PaymentCaptured
+Bus -[COLOR_ARROW_ASYNC,dashed]-> Notification : domain events
+Bus -[COLOR_ARROW_ASYNC,dashed]-> Inventory : OrderCancelled
+
+note bottom of Bus
+  Queue/event bus is used for work that
+  does not need to complete in the API request.
+end note
+
+legend bottom right
+  **Relations**
+  Solid = synchronous API / DB call
+  Dashed = asynchronous event / queue
+endlegend
+
+@enduml

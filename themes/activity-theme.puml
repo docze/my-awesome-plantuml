@@ -1,0 +1,104 @@
+!include_once common.puml
+
+<style>
+swimlane {
+    FontSize 16
+    FontStyle bold
+    FontColor COLOR_TEXT_PRIMARY
+    LineColor COLOR_BORDER_SUBTLE
+    LineThickness 1.3
+    Padding 10
+}
+
+activityDiagram {
+
+    activity {
+        BackgroundColor COLOR_PRIMARY_BG
+        LineColor COLOR_BORDER_PRIMARY
+        FontColor COLOR_TEXT_PRIMARY
+        FontSize 12
+        RoundCorner 12
+        LineThickness 1.4
+        Padding 10
+
+        .primary {
+            BackgroundColor COLOR_PRIMARY_BG
+            LineColor COLOR_BORDER_PRIMARY
+            FontColor COLOR_TEXT_PRIMARY
+            LineStyle 0
+            LineThickness 1.5
+        }
+
+        .secondary {
+            BackgroundColor COLOR_SECONDARY_BG
+            LineColor COLOR_BORDER_PRIMARY
+            FontColor COLOR_TEXT_PRIMARY
+            LineStyle 0
+            LineThickness 1.4
+        }
+
+        .optional {
+            BackgroundColor COLOR_OPTIONAL_BG
+            LineColor COLOR_BORDER_MUTED
+            FontColor COLOR_TEXT_SECONDARY
+            LineStyle 6-4
+            LineThickness 1.2
+        }
+
+        .rule {
+            BackgroundColor COLOR_RULE_BG
+            LineColor COLOR_BORDER_MUTED
+            FontColor COLOR_TEXT_MUTED
+            LineStyle 4-4
+            LineThickness 1.1
+        }
+
+        .important {
+            BackgroundColor COLOR_IMPORTANT_BG
+            LineColor COLOR_BORDER_WARNING
+            FontColor COLOR_TEXT_PRIMARY
+            FontStyle bold
+            LineStyle 0
+            LineThickness 1.6
+        }
+
+        .success {
+            BackgroundColor COLOR_SUCCESS_BG
+            LineColor COLOR_BORDER_SUCCESS
+            FontColor COLOR_TEXT_PRIMARY
+            LineStyle 0
+            LineThickness 1.5
+        }
+
+        .failure {
+            BackgroundColor COLOR_DANGER_BG
+            LineColor COLOR_BORDER_DANGER
+            FontColor COLOR_TEXT_PRIMARY
+            LineStyle 0
+            LineThickness 1.5
+        }
+    }
+
+    diamond {
+        BackgroundColor COLOR_DECISION_BG
+        LineColor COLOR_BORDER_WARNING
+        FontColor COLOR_TEXT_PRIMARY
+        LineThickness 1.4
+    }
+
+    arrow {
+        LineColor COLOR_ARROW_SYNC
+        FontColor COLOR_TEXT_SECONDARY
+        FontSize 10
+        LineThickness 1.3
+    }
+
+    note {
+        BackgroundColor COLOR_SECONDARY_BG
+        LineColor COLOR_BORDER_MUTED
+        FontColor COLOR_TEXT_SECONDARY
+        LineStyle 4-4
+        RoundCorner 8
+    }
+}
+</style>

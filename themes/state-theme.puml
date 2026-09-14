@@ -1,0 +1,53 @@
+!include_once common.puml
+
+<style>
+stateDiagram {
+
+    state {
+        BackgroundColor COLOR_SECONDARY_BG
+        LineColor COLOR_BORDER_PRIMARY
+        FontColor COLOR_TEXT_PRIMARY
+        RoundCorner 12
+        LineThickness 1.4
+
+        .draft {
+            BackgroundColor COLOR_SECONDARY_BG
+            LineColor COLOR_BORDER_MUTED
+            FontColor COLOR_TEXT_SECONDARY
+        }
+
+        .processing {
+            BackgroundColor COLOR_PRIMARY_BG
+            LineColor COLOR_BORDER_PRIMARY
+            FontColor COLOR_TEXT_PRIMARY
+        }
+
+        .success {
+            BackgroundColor COLOR_SUCCESS_BG
+            LineColor COLOR_BORDER_SUCCESS
+            FontColor COLOR_TEXT_PRIMARY
+            FontStyle bold
+        }
+
+        .failure {
+            BackgroundColor COLOR_DANGER_BG
+            LineColor COLOR_BORDER_DANGER
+            FontColor COLOR_TEXT_PRIMARY
+        }
+
+        .terminal {
+            BackgroundColor COLOR_INFRA_BG
+            LineColor COLOR_BORDER_MUTED
+            FontColor COLOR_TEXT_PRIMARY
+            FontStyle bold
+        }
+    }
+
+    arrow {
+        LineColor COLOR_ARROW_SYNC
+        FontColor COLOR_TEXT_SECONDARY
+        FontSize 10
+        LineThickness 1.2
+    }
+}
+</style>
